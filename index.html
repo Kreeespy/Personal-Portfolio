@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <title>Hello! I'm Derick</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hello! I'm Derick</title>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
@@ -14,26 +14,33 @@
     <canvas id="bg-canvas" class="fixed top-0 left-0 w-full h-full pointer-events-none" style="z-index: 1;"></canvas>
 
     <nav class="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-sm border-b custom-white-border">
-        <div class="max-w-7xl mx-auto px-8 py-6">
+        <div class="max-w-7xl mx-auto py-2">
             <div class="flex justify-center items-center gap-3 md:gap-12 flex-wrap">
+                <button onclick="scrollToSection('Start')" class="nav-btn" id="nav-home">
+                    <img src="Images and Assets/Personal Brand Logo Fixed.png" alt="Logo" class="w-10 h-10">
+                </button>
                 <button onclick="scrollToSection('about')" class="nav-btn" id="nav-about">ABOUT ME</button>
                 <button onclick="scrollToSection('skills')" class="nav-btn" id="nav-skills">MY SKILLS</button>
+                <button onclick="scrollToSection('works')" class="nav-btn" id="nav-works">WORKS</button>
                 <button onclick="scrollToSection('projects')" class="nav-btn" id="nav-projects">PROJECTS</button>
                 <button onclick="scrollToSection('contact')" class="nav-btn" id="nav-contact">CONTACT</button>
             </div>
         </div>
     </nav>
 
-    <section id="hero" class="min-h-screen flex items-center justify-center px-8 pt-24 retro-grid relative z-10">
+    <section id="Start" class="min-h-screen flex items-center justify-center px-8 pt-24 retro-grid relative z-10">
         <div class="max-w-4xl text-center">
-            <div class="mb-8 inline-block">
-                <div class="border-l-4 custom-orange-border pl-6 text-left">
+            <div class="mb-4 inline-block">
+                <div class="flex items-center gap-6 text-left mb-8">
+                    <img src ="Images and Assets/Personal Brand Logo Fixed.png" alt="Logo" class="w-24 h-24 md:w-32 md:h-32">
+                    <div class="border-l-4 custom-orange-border pl-6 text-left">
                     <p class="text-sm tracking-widest mb-2" style="color: #F3F2E9; opacity: 0.5;">PORTFOLIO / 2026</p>
-                    <h1 class="text-5xl md:text-7xl font-bold tracking-tight" style="color: #F3F2E9;">YOUR NAME</h1>
+                    <h1 class="text-5xl md:text-5xl font-bold tracking-tight" style="color: #F3F2E9;">Hello!</h1>
+                    <h1 class="text-5xl md:text-7xl font-bold tracking-tight" style="color: #F3F2E9;">I'm Derick</h1>
                 </div>
             </div>
             <p class="text-xl font-light tracking-wide max-w-2xl mx-auto" style="color: #F3F2E9; opacity: 0.6;">
-                Creative Developer / Designer / Visionary
+                Creative / Visionary / Techie
             </p>
             <div class="mt-12 flex justify-center gap-4">
                 <div class="w-16 h-px" style="background-color: #F3F2E9; opacity: 0.3;"></div>
@@ -50,12 +57,11 @@
                 <h2 class="text-4xl md:text-5xl font-bold tracking-tight" style="color: #F3F2E9;">ABOUT ME</h2>
             </div>
             <div class="space-y-6 text-lg leading-relaxed font-light border-l-2 custom-white-border pl-8" style="color: #F3F2E9; opacity: 0.7;">
-                <p>I'm a creative professional passionate about crafting experiences that sit at the intersection of design and technology. My work focuses on minimalism, functionality, and pushing the boundaries of what's possible.</p>
-                <p>With a keen eye for detail and a love for clean aesthetics, I transform complex problems into elegant solutions. Every project is an opportunity to create something that not only works beautifully but feels inevitable.</p>
+                <p>My path is defined by a lifelong ambition: to provide decentralized energy solutions that help society take its next great leap forward. Growing up in Indonesia, I viewed the landscape through a lens of both love and critical observation, witnessing how pollution and poverty were often symptoms of a deeper infrastructure gap. I saw that the slow pace of digitalization was leaving rural communities behind, depriving them of the facilities needed to propel themselves forward. I realized that energy is the heartbeat of connection. This realization shaped my life’s goal, not just to build infrastructure, but to create systems that bridge gaps and empower communities to grow. I am dedicated to building a future where technology pushes the world forward, starting from the ground up.</p>
+                <p>At my core, I am a creator who thrives in the space where calculated logic meets expressive art. I hold a philosophy that creates a standard for everything I do, and to treat every project, no matter how technical, as a form of art. I have a deep appreciation for high-fidelity aesthetics and the intricate details that make a creation truly stand out. I am happiest when I am tackling challenges that demand the full engagement of both sides of my brain, applying a logical mind to solve complex structural problems while using a creative eye to ensure the result is universally beautiful. Whether it is through code or design, I strive for that perfect balance of function and expression, ensuring the work is not just effective, but inspiring.</p>
             </div>
         </div>
     </section>
-
     <section id="skills" class="min-h-screen flex items-center justify-center px-8 py-24 relative z-10">
         <div class="max-w-5xl w-full">
             <div class="flex items-center gap-4 mb-16 justify-center">
@@ -68,12 +74,57 @@
                 </div>
         </div>
     </section>
+    <section id="works" class="py-24 px-8 retro-grid relative z-10">
+        <div class="max-w-7xl mx-auto">
+            
+            <div class="flex items-center gap-4 mb-16 justify-center">
+                <div class="w-16 h-0.5 custom-orange-bg"></div>
+                <h2 class="text-4xl md:text-5xl font-bold tracking-tight" style="color: #F3F2E9;">WORKS</h2>
+                <div class="w-16 h-0.5 custom-orange-bg"></div>
+            </div>
+            
+            <div class="relative bg-white/5 border custom-white-border rounded-none overflow-hidden">
+                <div class="relative h-[600px]">
+                    <img id="work-image" src="" alt="Work Image" class="w-full h-full object-cover transition-opacity duration-500">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent"></div>
+                    
+                    <div class="absolute bottom-0 left-0 right-0 p-12">
+                        <h3 id="work-title" class="text-4xl font-bold mb-4"></h3>
+                        <p id="work-desc" class="text-xl text-gray-300 font-light"></p>
+                    </div>
+                </div>
 
-    <section id="projects" class="py-24 px-8 retro-grid relative z-10">
+                <button onclick="changeWork(-1)" class="absolute left-8 top-1/2 -translate-y-1/2 custom-white-bg-10 hover-orange-bg transition-colors duration-300 p-4 border custom-white-border-20 z-20">
+                    <i data-lucide="chevron-left" class="w-8 h-8 text-white"></i>
+                </button>
+                <button onclick="changeWork(1)" class="absolute right-8 top-1/2 -translate-y-1/2 custom-white-bg-10 hover-orange-bg transition-colors duration-300 p-4 border custom-white-border-20 z-20">
+                    <i data-lucide="chevron-right" class="w-8 h-8 text-white"></i>
+                </button>
+
+                <div id="work-indicators" class="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-3 z-20">
+                    </div>
+            </div>
+        </div>
+    </section>
+    <section class="px-8 retro-grid relative z-10 flex items-center justify-center bg-black/50">
+        <div class="max-w-4xl text-center relative">
+            <div class="w-24 h-1 custom-orange-bg mx-auto mb-3 rounded-full"></div>
+            <blockquote class="text-2xl md:text-3xl font-light leading-tight mb-2 relative z-10" style="color: #F3F2E9;">
+                "Enthusiasm is common. <span class="custom-orange italic">Endurance is rare.</span>."
+            </blockquote>
+            
+            <cite class="text-lg tracking-[0.25em] uppercase not-italic block" style="color: #F3F2E9; opacity: 0.6;">
+                — Angela Duckworth
+            </cite>
+
+            <i data-lucide="zap" class="absolute top-9 left-0 w-full h-full text-[#F3F2E9] opacity-5 transform -translate-y-8 scale-150 pointer-events-none"></i>
+        </div>
+    </section>
+    <section id="projects" class="mt-12 py-24 px-8 retro-grid relative z-10">
         <div class="max-w-7xl mx-auto">
             <div class="flex items-center gap-4 mb-16 justify-center">
                 <div class="w-16 h-0.5 custom-orange-bg"></div>
-                <h2 class="text-4xl md:text-5xl font-bold tracking-tight" style="color: #F3F2E9;">FEATURED PROJECTS</h2>
+                <h2 class="text-4xl md:text-5xl font-bold tracking-tight" style="color: #F3F2E9;">PROJECTS</h2>
                 <div class="w-16 h-0.5 custom-orange-bg"></div>
             </div>
             
@@ -100,12 +151,16 @@
             </div>
         </div>
     </section>
-
-    <section id="contact" class="min-h-screen flex items-center justify-center px-8 py-24 scanlines relative z-10">
+    <section><div class="justify-center items-center flex">
+        <button onclick="scrollToSection('contact')" class="inline-block px-8 py-4 border custom-orange-border hover-orange-bg transition-colors duration-300 text-lg font-medium tracking-wider" style="color: #F3F2E9;">
+            MORE TO COME! </button>
+    </div>
+    </section>
+    <section id="contact" class="min-h-screen flex items-center justify-center px-8 py-12 scanlines relative z-10">
         <div class="max-w-3xl w-full text-center">
             <div class="flex items-center gap-4 mb-12 justify-center">
                 <div class="w-16 h-0.5 custom-orange-bg"></div>
-                <h2 class="text-4xl md:text-5xl font-bold tracking-tight" style="color: #F3F2E9;">LET'S CONNECT</h2>
+                <h2 class="text-4xl md:text-5xl font-bold tracking-tight" style="color: #F3F2E9;">LET'S CONNECT!</h2>
                 <div class="w-16 h-0.5 custom-orange-bg"></div>
             </div>
             <p class="text-xl mb-16 font-light" style="color: #F3F2E9; opacity: 0.6;">
@@ -136,7 +191,7 @@
     </section>
 
     <footer class="border-t custom-white-border py-8 text-center text-sm tracking-wider" style="color: #F3F2E9; opacity: 0.4;">
-        <p>© 2026 YOUR NAME. ALL RIGHTS RESERVED.</p>
+        <p>© 2026 DERICK . ALL RIGHTS RESERVED.</p>
     </footer>
 
     <script src="data.js"></script>

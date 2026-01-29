@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initCarousel();
     initSkills(); // Auto-generate skills from data.js
     initScrollSpy();
+    initWorks();
 });
 
 // --- 1. GENERATIVE ART CANVAS ---
@@ -228,7 +229,7 @@ window.scrollToSection = function(id) {
 }
 
 function initScrollSpy() {
-    const sections = ['about', 'skills', 'projects', 'contact'];
+    const sections = ['about', 'skills', 'works','projects', 'contact'];
     const navButtons = document.querySelectorAll('.nav-btn');
     
     // State variable to track the current active section
@@ -264,4 +265,70 @@ function initScrollSpy() {
             });
         }
     });
+}
+let currentWork = 0;
+
+function initWorks() {
+    if (typeof worksData === 'undefined') return;
+    renderWork();
+    renderWorkIndicators();
+}
+
+function renderWork() {
+    const title = document.getElementById('work-title');
+    const desc = document.getElementById('work-desc');
+    const img = document.getElementById('work-image');
+    
+    if(!title || !desc || !img) return;
+
+    img.style.opacity = 0;
+    
+    setTimeout(() => {
+        const work = worksData[currentWork];
+        title.innerText = work.title;
+        desc.innerText = work.description;
+        img.src = work.image;
+        img.style.opacity = 1;
+    }, 200);
+
+    updateWorkIndicators();
+}
+
+window.changeWork = function(direction) {
+    currentWork = (currentWork + direction + worksData.length) % worksData.length;
+    renderWork();
+}
+
+window.jumpToWork = function(index) {
+    currentWork = index;
+    renderWork();
+}
+
+function renderWorkIndicators() {
+    const container = document.getElementById('work-indicators');
+    if (!container) return;
+    
+    container.innerHTML = '';
+    worksData.forEach((_, idx) => {
+        const btn = document.createElement('button');
+        btn.onclick = () => window.jumpToWork(idx); 
+        container.appendChild(btn);
+    });
+    updateWorkIndicators();
+}
+
+function updateWorkIndicators() {
+    const container = document.getElementById('work-indicators');
+    if (!container) return;
+
+    const btns = container.children;
+    for (let i = 0; i < btns.length; i++) {
+        let classes = "w-12 h-1 transition-colors duration-300 ";
+        if (i === currentWork) {
+            classes += "custom-orange-bg";
+        } else {
+            classes += "custom-white-30";
+        }
+        btns[i].className = classes;
+    }
 }

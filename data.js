@@ -1,32 +1,60 @@
 const projectData = [
     {
-        title: "Project Alpha",
-        description: "A revolutionary approach to data visualization",
-        image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=600&fit=crop"
+        title: "Project JigJags: Palace of Tiles",
+        description: "A new way of experiencing Mahjong, bringing the fun of Mahjong worldwide.",
+        image: "Images and Assets/Projects/JigJags.png"
     },
     {
-        title: "Project Beta",
-        description: "Minimalist design system for modern applications",
-        image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=600&fit=crop"
+        title: "Project Buffet: Trading System & Asset Manager",
+        description: "Low risk, stable yearly returns through diversified investments and automated trading.",
+        image: "Images and Assets/Projects/Trading.png"
     },
     {
-        title: "Project Gamma",
-        description: "Interactive experience pushing creative boundaries",
-        image: "https://images.unsplash.com/photo-1558655146-364adaf1fcc9?w=800&h=600&fit=crop"
+        title: "Project Livvy: Local Indonesian AI Live Host",
+        description: "Interactive AI Live Host that engages audiences in real-time using advanced natural language processing.",
+        image: "Images and Assets/Projects/Project Livvy.png"
     }
 ];
 
 const skillsData = [
     { 
         category: "DESIGN", 
-        items: ["Photoshop", "Typography", "Branding", "Prototyping"] 
+        items: ["Photo and Editing", "Video Editing", "Graphic Design", "Motion Graphics", "Branding", "Prototyping", "3D Modeling"] 
     },
     { 
         category: "DEVELOPMENT", 
-        items: ["React", "JavaScript", "CSS/Tailwind", "Web Animation"] 
+        items: ["HTML", "JavaScript", "CSS/Tailwind", "Python", "Lua", "GDScript", "Arduino",] 
     },
     { 
         category: "TOOLS", 
-        items: ["Figma", "Adobe Suite", "Git", "VS Code"] 
+        items: ["Adobe Suite", "Blender", "Godot", "VS Code", "Roblox Studio","Godot", "Git/GitHub"] 
+    }
+];
+
+const worksData = [
+    {
+        title: "Lead Developer - Shark's Cupid (2025)",
+        description: "First Game Jam Game - A fast paced game where you play as a shark trying to find love. Top 30% Finisher in Shovel Jam 2025, made in 3 days.",
+        image: "./images/work1.png" 
+    },
+    {
+        title: "Co-Founder - Digital Marketing Agency: Dhant (2025)",
+        description: "Co-Founded a digital marketing agency that provides services such as social media management, content creation, and digital advertising to small and medium-sized businesses. Gained 3 clients within the first two months of operation.",
+        image: "./images/work4.png"
+    },
+    {
+        title: "Lead Designer - Pelangi Kasih's Yearbook (2024)",
+        description: "Planned, Designed and Layouted the 2024 Yearbook for Pelangi Kasih School.",
+        image: "./images/work2.png"
+    },
+    {
+        title: "Founder - Apparel Brand: Savant (2023)",
+        description: "Founded and operated a direct-to consumer apparel brand focusing minimialist niche graphic apparel. That lead to 30+ sales in the first week.",
+        image: "./images/work3.png"
+    },
+    {
+        title: "Program Director - Educating Kids in Ngaduman, Semarang (2023)",
+        description: "Designed and structured a 5 day educational program for unprivileged kids in Ngaduman, Semarang. Teaching them interactive lessons on basic civil engineering, structural integrity, physics and arts & crafts.",
+        image: "./images/work5.png"
     }
 ];
