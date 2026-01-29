@@ -1,0 +1,267 @@
+document.addEventListener('DOMContentLoaded', () => {
+    // 1. Initialize Icons
+    if (typeof lucide !== 'undefined') {
+        lucide.createIcons();
+    }
+    
+    // 2. Start Systems
+    initCanvas();
+    initCarousel();
+    initSkills(); // Auto-generate skills from data.js
+    initScrollSpy();
+});
+
+// --- 1. GENERATIVE ART CANVAS ---
+function initCanvas() {
+    const canvas = document.getElementById('bg-canvas');
+    if (!canvas) {
+        console.error("Canvas element not found!");
+        return;
+    }
+    
+    const ctx = canvas.getContext('2d');
+    let width, height;
+    let particles = [];
+    const particleCount = 150;
+
+    class Particle {
+        constructor() {
+            this.reset();
+        }
+
+        reset() {
+            this.x = Math.random() * width;
+            this.y = Math.random() * height;
+            this.vx = (Math.random() - 0.5) * 0.3;
+            this.vy = (Math.random() - 0.5) * 0.3;
+            this.size = Math.random() * 2 + 1;
+            this.opacity = Math.random() * 0.3 + 0.1;
+        }
+
+        update() {
+            this.x += this.vx;
+            this.y += this.vy;
+
+            // Bounce off walls
+            if (this.x < 0 || this.x > width) this.vx *= -1;
+            if (this.y < 0 || this.y > height) this.vy *= -1;
+
+            // Gentle flow behavior (Brownian motion)
+            this.vx += (Math.random() - 0.5) * 0.02;
+            this.vy += (Math.random() - 0.5) * 0.02;
+
+            // Speed Limit
+            const maxSpeed = 0.5;
+            const speed = Math.sqrt(this.vx * this.vx + this.vy * this.vy);
+            if (speed > maxSpeed) {
+                this.vx = (this.vx / speed) * maxSpeed;
+                this.vy = (this.vy / speed) * maxSpeed;
+            }
+        }
+
+        draw() {
+            ctx.fillStyle = `rgba(243, 242, 233, ${this.opacity})`;
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+            ctx.fill();
+        }
+    }
+
+    function resize() {
+        width = canvas.width = window.innerWidth;
+        height = canvas.height = window.innerHeight;
+    }
+
+    function initParticles() {
+        particles = [];
+        for (let i = 0; i < particleCount; i++) {
+            particles.push(new Particle());
+        }
+    }
+
+    function animate() {
+        ctx.clearRect(0, 0, width, height);
+        
+        particles.forEach(p => {
+            p.update();
+            p.draw();
+        });
+
+        // Draw Connections
+        for (let i = 0; i < particles.length; i++) {
+            for (let j = i + 1; j < particles.length; j++) {
+                const dx = particles[i].x - particles[j].x;
+                const dy = particles[i].y - particles[j].y;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+
+                if (distance < 120) {
+                    ctx.strokeStyle = `rgba(243, 242, 233, ${0.05 * (1 - distance / 120)})`;
+                    ctx.lineWidth = 0.5;
+                    ctx.beginPath();
+                    ctx.moveTo(particles[i].x, particles[i].y);
+                    ctx.lineTo(particles[j].x, particles[j].y);
+                    ctx.stroke();
+                }
+            }
+        }
+        requestAnimationFrame(animate);
+    }
+
+    // Resize Event
+    window.addEventListener('resize', () => {
+        resize();
+        // Optional: Re-initialize particles on massive resize to prevent clumping
+        // initParticles(); 
+    });
+
+    // Start
+    resize();
+    initParticles();
+    animate();
+}
+
+// --- 2. DYNAMIC SKILLS SECTION ---
+function initSkills() {
+    const container = document.getElementById('skills-container');
+    if (!container || typeof skillsData === 'undefined') return;
+
+    container.innerHTML = skillsData.map(group => `
+        <div class="border custom-white-border p-8 hover-orange-border-50 transition-colors duration-300 relative group">
+            <div class="absolute top-4 right-4 w-2 h-2 custom-orange-bg"></div>
+            <h3 class="text-xl font-semibold mb-6 custom-orange tracking-wider">${group.category}</h3>
+            <ul class="space-y-3">
+                ${group.items.map(skill => `
+                    <li class="font-light flex items-center gap-3 opacity-60">
+                        <span class="w-1 h-1 bg-[#F3F2E9] opacity-40"></span>
+                        ${skill}
+                    </li>
+                `).join('')}
+            </ul>
+        </div>
+    `).join('');
+}
+
+// --- 3. PROJECT CAROUSEL ---
+let currentProject = 0;
+
+function initCarousel() {
+    if (typeof projectData === 'undefined') return;
+    renderProject();
+    renderIndicators();
+}
+
+function renderProject() {
+    const title = document.getElementById('project-title');
+    const desc = document.getElementById('project-desc');
+    const img = document.getElementById('project-image');
+    
+    // Safety check
+    if(!title || !desc || !img) return;
+
+    // Fade Out
+    img.style.opacity = 0;
+    
+    setTimeout(() => {
+        // Update Content
+        const project = projectData[currentProject];
+        title.innerText = project.title;
+        desc.innerText = project.description;
+        img.src = project.image;
+        
+        // Fade In
+        img.style.opacity = 1;
+    }, 200);
+
+    updateIndicators();
+}
+
+// Global function to be called by HTML buttons
+window.changeProject = function(direction) {
+    currentProject = (currentProject + direction + projectData.length) % projectData.length;
+    renderProject();
+}
+
+// Global function to jump to specific project
+window.jumpToProject = function(index) {
+    currentProject = index;
+    renderProject();
+}
+
+function renderIndicators() {
+    const container = document.getElementById('project-indicators');
+    if (!container) return;
+    
+    container.innerHTML = '';
+    projectData.forEach((_, idx) => {
+        const btn = document.createElement('button');
+        // Add onclick event
+        btn.onclick = () => window.jumpToProject(idx); 
+        container.appendChild(btn);
+    });
+    updateIndicators();
+}
+
+function updateIndicators() {
+    const container = document.getElementById('project-indicators');
+    if (!container) return;
+
+    const btns = container.children;
+    for (let i = 0; i < btns.length; i++) {
+        // Base classes
+        let classes = "w-12 h-1 transition-colors duration-300 ";
+        // Active vs Inactive classes
+        if (i === currentProject) {
+            classes += "custom-orange-bg";
+        } else {
+            classes += "custom-white-30";
+        }
+        btns[i].className = classes;
+    }
+}
+
+// --- 4. SCROLL SPY & NAVIGATION ---
+window.scrollToSection = function(id) {
+    const el = document.getElementById(id);
+    if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+}
+
+function initScrollSpy() {
+    const sections = ['about', 'skills', 'projects', 'contact'];
+    const navButtons = document.querySelectorAll('.nav-btn');
+    
+    // State variable to track the current active section
+    let activeSectionId = '';
+
+    window.addEventListener('scroll', () => {
+        let current = '';
+        const scrollPosition = window.scrollY + window.innerHeight / 3;
+
+        // 1. Determine which section is active
+        sections.forEach(section => {
+            const el = document.getElementById(section);
+            if (el && scrollPosition >= el.offsetTop) {
+                current = section;
+            }
+        });
+
+        // 2. Only update DOM if the section actually changed! (Fixes blinking)
+        if (current !== activeSectionId) {
+            activeSectionId = current;
+
+            navButtons.forEach(btn => {
+                // Remove existing indicators
+                const oldIndicator = btn.querySelector('.nav-indicator');
+                if (oldIndicator) oldIndicator.remove();
+
+                // Add new indicator only to the active button
+                if (btn.id === `nav-${current}`) {
+                    const indicator = document.createElement('span');
+                    indicator.className = 'nav-indicator animate-fade-in';
+                    btn.appendChild(indicator);
+                }
+            });
+        }
+    });
+}
