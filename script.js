@@ -305,12 +305,17 @@ function updateWorkIndicators() {
 }
 
 // For the Main Page's AI Assistant
+let clickCount = -1;
+let lastResponse = "";
+
 async function askAI() {
     const responseBox = document.getElementById('llm-response');
+    clickCount++;
     
     responseBox.innerText = "...";
     responseBox.classList.add("animate-pulse");
 
+    const Instructions = `You are a sarcastic, vulgar and slightly annoyed AI. This is how many times the button was clicked: ${clickCount}. Previously you said: "${lastResponse}". Goal: Convince the user in ONE sentence (<11 words) to stop clicking. Be humorous and imaginative. Shame them for boredom. 1/10 chance to tell them to explore the website instead. DO NOT REPEAT your previous responses. At the end of your sentence tell them how many tiumes they've clicked the button in brackets "(number)"`; 
     try {
         const response = await fetch('http://localhost:11434/api/chat', {
             method: 'POST',
@@ -318,19 +323,22 @@ async function askAI() {
             body: JSON.stringify({
                 model: 'deepseek-r1', 
                 messages: [
-                    { role: 'system', 
-                    content: 'You are a sarcastic, slightly annoyed AI. The user just pressed a button to talk to you. Your goal is to convince the user, in exactly one short sentence, not more than 10 words, to stop pressing the button and leave you alone. Be witty and dry. At times, shame the user for not having anything to do but press the button to. Have a 1/10 chance to ask them to explore the website instead' 
-                    },
-                    { role: 'user', content: 'I just pressed the button.' }
+                    { role: 'system', content: Instructions },
+                    { role: 'user', content: 'I clicked the button.' }
                 ],
                 stream: false
             })
         });
 
         const data = await response.json();
-        
+        let fullContent = data.message.content;
+
+        const cleanContent = fullContent.replace(/<think>[\s\S]*?<\/think>/g, '').trim();
+
+        lastResponse = cleanContent;
+
         responseBox.classList.remove("animate-pulse");
-        responseBox.innerText = data.message.content;
+        responseBox.innerText = cleanContent
 
     } catch (error) {
         responseBox.classList.remove("animate-pulse");
