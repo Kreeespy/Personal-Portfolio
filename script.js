@@ -1,18 +1,15 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // 1. Initialize Icons
     if (typeof lucide !== 'undefined') {
         lucide.createIcons();
     }
-    
-    // 2. Start Systems
     initCanvas();
     initCarousel();
-    initSkills(); // Auto-generate skills from data.js
+    initSkills(); 
     initScrollSpy();
     initWorks();
 });
 
-// --- 1. GENERATIVE ART CANVAS ---
+// Background Effects Thingies
 function initCanvas() {
     const canvas = document.getElementById('bg-canvas');
     if (!canvas) {
@@ -43,15 +40,12 @@ function initCanvas() {
             this.x += this.vx;
             this.y += this.vy;
 
-            // Bounce off walls
             if (this.x < 0 || this.x > width) this.vx *= -1;
             if (this.y < 0 || this.y > height) this.vy *= -1;
 
-            // Gentle flow behavior (Brownian motion)
             this.vx += (Math.random() - 0.5) * 0.02;
             this.vy += (Math.random() - 0.5) * 0.02;
 
-            // Speed Limit
             const maxSpeed = 0.5;
             const speed = Math.sqrt(this.vx * this.vx + this.vy * this.vy);
             if (speed > maxSpeed) {
@@ -88,7 +82,6 @@ function initCanvas() {
             p.draw();
         });
 
-        // Draw Connections
         for (let i = 0; i < particles.length; i++) {
             for (let j = i + 1; j < particles.length; j++) {
                 const dx = particles[i].x - particles[j].x;
@@ -108,26 +101,21 @@ function initCanvas() {
         requestAnimationFrame(animate);
     }
 
-    // Resize Event
     window.addEventListener('resize', () => {
         resize();
-        // Optional: Re-initialize particles on massive resize to prevent clumping
-        // initParticles(); 
     });
-
-    // Start
     resize();
     initParticles();
     animate();
 }
 
-// --- 2. DYNAMIC SKILLS SECTION ---
+// Skills Section
 function initSkills() {
     const container = document.getElementById('skills-container');
     if (!container || typeof skillsData === 'undefined') return;
 
     container.innerHTML = skillsData.map(group => `
-        <div class="border custom-white-border p-8 hover-orange-border-50 transition-colors duration-300 relative group">
+        <div class="rounded-lg border custom-white-border p-8 hover-orange-border-50 transition-colors duration-300 relative group">
             <div class="absolute top-4 right-4 w-2 h-2 custom-orange-bg"></div>
             <h3 class="text-xl font-semibold mb-6 custom-orange tracking-wider">${group.category}</h3>
             <ul class="space-y-3">
@@ -142,7 +130,7 @@ function initSkills() {
     `).join('');
 }
 
-// --- 3. PROJECT CAROUSEL ---
+// Project Carousel
 let currentProject = 0;
 
 function initCarousel() {
@@ -156,33 +144,25 @@ function renderProject() {
     const desc = document.getElementById('project-desc');
     const img = document.getElementById('project-image');
     
-    // Safety check
     if(!title || !desc || !img) return;
 
-    // Fade Out
     img.style.opacity = 0;
     
     setTimeout(() => {
-        // Update Content
         const project = projectData[currentProject];
         title.innerText = project.title;
         desc.innerText = project.description;
         img.src = project.image;
         
-        // Fade In
         img.style.opacity = 1;
     }, 200);
 
     updateIndicators();
 }
-
-// Global function to be called by HTML buttons
 window.changeProject = function(direction) {
     currentProject = (currentProject + direction + projectData.length) % projectData.length;
     renderProject();
 }
-
-// Global function to jump to specific project
 window.jumpToProject = function(index) {
     currentProject = index;
     renderProject();
@@ -205,12 +185,9 @@ function renderIndicators() {
 function updateIndicators() {
     const container = document.getElementById('project-indicators');
     if (!container) return;
-
     const btns = container.children;
     for (let i = 0; i < btns.length; i++) {
-        // Base classes
         let classes = "w-12 h-1 transition-colors duration-300 ";
-        // Active vs Inactive classes
         if (i === currentProject) {
             classes += "custom-orange-bg";
         } else {
@@ -220,7 +197,7 @@ function updateIndicators() {
     }
 }
 
-// --- 4. SCROLL SPY & NAVIGATION ---
+//Scroll Navigator
 window.scrollToSection = function(id) {
     const el = document.getElementById(id);
     if (el) {
@@ -232,14 +209,11 @@ function initScrollSpy() {
     const sections = ['about', 'skills', 'works','projects', 'contact'];
     const navButtons = document.querySelectorAll('.nav-btn');
     
-    // State variable to track the current active section
     let activeSectionId = '';
 
     window.addEventListener('scroll', () => {
         let current = '';
         const scrollPosition = window.scrollY + window.innerHeight / 3;
-
-        // 1. Determine which section is active
         sections.forEach(section => {
             const el = document.getElementById(section);
             if (el && scrollPosition >= el.offsetTop) {
@@ -247,16 +221,13 @@ function initScrollSpy() {
             }
         });
 
-        // 2. Only update DOM if the section actually changed! (Fixes blinking)
         if (current !== activeSectionId) {
             activeSectionId = current;
 
             navButtons.forEach(btn => {
-                // Remove existing indicators
                 const oldIndicator = btn.querySelector('.nav-indicator');
                 if (oldIndicator) oldIndicator.remove();
 
-                // Add new indicator only to the active button
                 if (btn.id === `nav-${current}`) {
                     const indicator = document.createElement('span');
                     indicator.className = 'nav-indicator animate-fade-in';
@@ -330,5 +301,39 @@ function updateWorkIndicators() {
             classes += "custom-white-30";
         }
         btns[i].className = classes;
+    }
+}
+
+// For the Main Page's AI Assistant
+async function askAI() {
+    const responseBox = document.getElementById('llm-response');
+    
+    responseBox.innerText = "...";
+    responseBox.classList.add("animate-pulse");
+
+    try {
+        const response = await fetch('http://localhost:11434/api/chat', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                model: 'deepseek-r1', 
+                messages: [
+                    { role: 'system', 
+                    content: 'You are a sarcastic, slightly annoyed AI. The user just pressed a button to talk to you. Your goal is to convince the user, in exactly one short sentence, not more than 10 words, to stop pressing the button and leave you alone. Be witty and dry. At times, shame the user for not having anything to do but press the button to. Have a 1/10 chance to ask them to explore the website instead' 
+                    },
+                    { role: 'user', content: 'I just pressed the button.' }
+                ],
+                stream: false
+            })
+        });
+
+        const data = await response.json();
+        
+        responseBox.classList.remove("animate-pulse");
+        responseBox.innerText = data.message.content;
+
+    } catch (error) {
+        responseBox.classList.remove("animate-pulse");
+        responseBox.innerHTML = '<span class="text-red-500">Ollama is offline. Finally, some peace and quiet.</span>';
     }
 }
